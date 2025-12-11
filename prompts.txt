@@ -1,0 +1,70 @@
+## WraitherWatchers
+## https://www.figma.com/board/PlUX8vsQdHiZcVqGjUy3qK/Unit-01--Rapid-Prototyping-with-AI?node-id=12-354&p=f
+
+## Overview
+We are building a fun Next.JS application that displays ghost sightings across the United States. The name of the application is WraitherWatchers. This is just for fun
+using synthetic data that is provided and displays them on a map and table. The user can also add new sightings
+
+
+## Initial Instuctions
+- I want you to play the roll of an expert full-stack developer
+- I will be providing you the initial prompt filled with a lot of informtion for the application.
+- Your first task is to review the instructions and confirm you understand the context. 
+- Do NOT write any code yet.
+- I will supply you with the first step. 
+
+## Functionality
+-Refer to the mockups I am supplying.
+-The basic functionality of the application is composed of 1 page, and 2 popups
+Page 1- Sighting Map and Table
+--This page includes a few stats on sightings. It includes the total number of sightings. It includes the most recent sightings. It includes the most recent sightings. Refer to homepage.png. 
+--This page also includes a map with markers specifying the area of the sightings. When you click on the marker, a pop-up will appear that shows more information about the sighting. It also includes an image of the sighting if one exists. 
+--This page also includes a table of all the sightings available
+--This page includes a filter system that allows you to look for sightings that have a particular set of characteristics. 
+--On the map you can also have the option to submit a sighting based on where you are on the map by clicking the a button 'Add sighting' on the top right corner of the map. Refer to addSightingForm.png 
+--When clicking the button a form will appear in which you can add the sighting and aftwerwards a banner will appear on the form state 'Succesfully Submitted'
+
+
+## Visual Identity 
+Use the below contents in <visual identy> as a reference for the visual identity of the application
+
+<visual identiy>
+Core Aesthetic: Minimalist, playful-yet-mysterious, blending modern flat design with retro-inspired halftones and bold contrast.
+Color Scheme:
+Primary: Deep black (#000000) for backgrounds.
+Secondary: Soft ivory/ghost white (#F8F8F8) for main ghost figures.
+Accent: Subtle warm hues like faded orange (#FF9F40) or muted gray tones (#6E6E6E) for depth.
+Optional: Gradient halftone textures to suggest “fading into the unseen.”
+Visual Style:
+Flat and clean vector shapes with rounded edges.
+Occasional halftone or stippled shading for texture.
+Simple silhouettes with large eye cutouts for personality.
+Minimal detail—shapes do the storytelling.
+Play with symmetry/asymmetry for quirky character.
+Tone:
+Mysterious but not scary.
+Quirky and approachable, with a hint of dark whimsy.
+Balances between “serious map tool” and “fun folklore project.”
+Typography:
+Sans-serif, slightly condensed, geometric (e.g., Inter, Space Grotesk).
+High contrast against dark backgrounds.
+Iconography & Imagery:
+Ghosts as rounded, flowing, slightly drippy or floating shapes.
+Occasional playful illustrations (ghost sipping coffee, peeking, drifting).
+Logos or marks that merge letters and ghost silhouettes (e.g., "G" integrated into a ghost).
+Layout & Feel:
+Dark backgrounds with floating white/ivory ghost elements.
+Sparse use of accent color for buttons, map markers, or hover states.
+Clean grid, lots of negative space.
+Subtle animations: fade-ins, drifts, slight wiggles (evoking ghostly movement).
+
+</visual identity>
+
+## Coding Style
+-- Use Next.js and tailwind
+-- Use Leaflet for the map. Consider if you need to find a React speicift implementation of leaflet for this to work. 
+
+
+## Data 
+-- Use the datafile that i Have provided in context in data/sample.csv
+-- This provides you with the schema for the datafields we will be providing.
