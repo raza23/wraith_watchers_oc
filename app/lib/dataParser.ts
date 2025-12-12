@@ -8,12 +8,12 @@ export function parseSightingsData(): Sighting[] {
     const filePath = path.join(process.cwd(), 'app', 'data', 'sample.csv');
     const fileContents = fs.readFileSync(filePath, 'utf8');
     
-    const results = Papa.parse(fileContents, {
+    const results = Papa.parse<Record<string, string>>(fileContents, {
       header: true,
       skipEmptyLines: true,
     });
     
-    const sightings: Sighting[] = results.data.map((row: Record<string, string>, index: number) => ({
+    const sightings: Sighting[] = results.data.map((row, index: number) => ({
       id: `sighting-${index}`,
       date: row['Date of Sighting'] || '',
       latitude: parseFloat(row['Latitude of Sighting']) || 0,
