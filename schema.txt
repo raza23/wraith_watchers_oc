@@ -1,0 +1,55 @@
+-- scripts/create_sightings_table.sql
+
+-- Create the sightings table
+CREATE TABLE IF NOT EXISTS sightings (
+  id UUID DEFAULT gen_random_uuid() PRIMARY KEY,
+  date DATE NOT NULL,
+  latitude DECIMAL(10, 6) NOT NULL,
+  longitude DECIMAL(11, 6) NOT NULL,
+  city VARCHAR(255) NOT NULL,
+  state VARCHAR(100) NOT NULL,
+  notes TEXT NOT NULL,
+  timeOfDay VARCHAR(50) NOT NULL,
+  apparitionTag VARCHAR(100) NOT NULL,
+  imageLink TEXT,
+  created_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW()),
+  updated_at TIMESTAMP WITH TIME ZONE DEFAULT TIMEZONE('utc', NOW())
+);
+
+-- Create indexes for common queries
+CREATE INDEX IF NOT EXISTS idx_sightings_date ON sightings(date);
+CREATE INDEX IF NOT EXISTS idx_sightings_state ON sightings(state);
+CREATE INDEX IF NOT EXISTS idx_sightings_city ON sightings(city);
+CREATE INDEX IF NOT EXISTS idx_sightings_apparition_tag ON sightings(apparitionTag);
+CREATE INDEX IF NOT EXISTS idx_sightings_time_of_day ON sightings(timeOfDay);
+
+-- Create a geospatial index for location-based queries
+CREATE INDEX IF NOT EXISTS idx_sightings_location ON sightings(latitude, longitude);
+
+-- Enable Row Level Security (RLS)
+ALTER TABLE sightings ENABLE ROW LEVEL SECURITY;
+
+-- Create policies for public read access
+CREATE POLICY "Allow public read access" ON sightings
+  FOR SELECT
+  USING (true);
+
+-- Create policy for authenticated insert (if you want users to add sightings)
+CREATE POLICY "Allow public insert" ON sightings
+  FOR INSERT
+  WITH CHECK (true);
+
+-- Create a function to automatically update updated_at timestamp
+CREATE OR REPLACE FUNCTION update_updated_at_column()
+RETURNS TRIGGER AS $$
+BEGIN
+  NEW.updated_at = TIMEZONE('utc', NOW());
+  RETURN NEW;
+END;
+$$ language 'plpgsql';
+
+-- Create trigger to automatically update updated_at
+CREATE TRIGGER update_sightings_updated_at 
+  BEFORE UPDATE ON sightings 
+  FOR EACH ROW 
+  EXECUTE FUNCTION update_updated_at_column();

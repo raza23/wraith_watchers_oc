@@ -56,23 +56,39 @@ export default function HomePageClient({ initialSightings }: HomePageClientProps
     setIsFormOpen(true);
   };
 
-  const handleFormSubmit = (formData: SightingFormData) => {
-    // Create new sighting from form data
-    const newSighting: Sighting = {
-      id: `sighting-${currentTime}`,
-      date: formData.date,
-      latitude: formData.latitude,
-      longitude: formData.longitude,
-      city: formData.city,
-      state: formData.state,
-      notes: formData.notes,
-      timeOfDay: formData.timeOfDay,
-      apparitionTag: formData.apparitionTag,
-      imageLink: formData.imageLink || undefined,
-    };
+  const handleFormSubmit = async (formData: SightingFormData) => {
+    try {
+      // Send to API
+      const response = await fetch('/api/sightings', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          date: formData.date,
+          latitude: formData.latitude,
+          longitude: formData.longitude,
+          city: formData.city,
+          state: formData.state,
+          notes: formData.notes,
+          timeOfDay: formData.timeOfDay,
+          apparitionTag: formData.apparitionTag,
+          imageLink: formData.imageLink || undefined,
+        }),
+      });
 
-    // Add to sightings list
-    setSightings([...sightings, newSighting]);
+      if (!response.ok) {
+        throw new Error('Failed to add sighting');
+      }
+
+      const newSighting: Sighting = await response.json();
+
+      // Add to sightings list
+      setSightings([newSighting, ...sightings]);
+    } catch (error) {
+      console.error('Error adding sighting:', error);
+      alert('Failed to add sighting. Please try again.');
+    }
   };
 
   // Recalculate stats when sightings change
