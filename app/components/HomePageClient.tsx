@@ -38,6 +38,7 @@ export default function HomePageClient({ initialSightings }: HomePageClientProps
   const [isFormOpen, setIsFormOpen] = useState(false);
   const [currentTime, setCurrentTime] = useState(() => Date.now());
   const [selectedLocation, setSelectedLocation] = useState<{ lat: number; lng: number } | null>(null);
+  const [currentPageSightings, setCurrentPageSightings] = useState<Sighting[]>([]);
 
   // Update current time periodically for accurate days ago calculation
   useEffect(() => {
@@ -91,6 +92,11 @@ export default function HomePageClient({ initialSightings }: HomePageClientProps
     }
   };
 
+  // Callback to receive current page data from table
+  const handlePageChange = (pageSightings: Sighting[]) => {
+    setCurrentPageSightings(pageSightings);
+  };
+
   // Recalculate stats when sightings change
   const total = sightings.length;
   const sortedByDate = [...sightings].sort((a, b) => {
@@ -124,11 +130,14 @@ export default function HomePageClient({ initialSightings }: HomePageClientProps
       <main className="pb-12">
         <SightingsStats {...stats} />
         <SightingsMap 
-          sightings={sightings} 
+          sightings={currentPageSightings.length > 0 ? currentPageSightings : sightings.slice(0, 50)} 
           onAddSightingClick={handleAddSightingClick}
           onMapClick={handleMapClick}
         />
-        <SightingsTable sightings={sightings} />
+        <SightingsTable 
+          sightings={sightings}
+          onPageChange={handlePageChange}
+        />
       </main>
       <footer className="bg-gray-900 text-[#F8F8F8] text-center py-4">
         <p>Footer</p>

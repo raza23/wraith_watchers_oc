@@ -1,13 +1,14 @@
 'use client';
 
-import { useState, useMemo } from 'react';
+import { useState, useMemo, useEffect } from 'react';
 import { Sighting } from '../types/sighting';
 
 interface SightingsTableProps {
   sightings: Sighting[];
+  onPageChange?: (pageSightings: Sighting[]) => void;
 }
 
-export default function SightingsTable({ sightings }: SightingsTableProps) {
+export default function SightingsTable({ sightings, onPageChange }: SightingsTableProps) {
   const [filter, setFilter] = useState({
     city: '',
     state: '',
@@ -33,6 +34,13 @@ export default function SightingsTable({ sightings }: SightingsTableProps) {
   const startIndex = (currentPage - 1) * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const currentSightings = filteredSightings.slice(startIndex, endIndex);
+
+  // Notify parent component when page changes
+  useEffect(() => {
+    if (onPageChange) {
+      onPageChange(currentSightings);
+    }
+  }, [currentSightings, onPageChange]);
 
   // Reset to page 1 when filters change
   const handleFilterChange = (newFilter: typeof filter) => {

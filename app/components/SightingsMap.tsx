@@ -1,6 +1,6 @@
 'use client';
 
-import { useEffect, useMemo } from 'react';
+import { useEffect } from 'react';
 import { MapContainer, TileLayer, Marker, Popup, useMapEvents } from 'react-leaflet';
 import L from 'leaflet';
 import 'leaflet/dist/leaflet.css';
@@ -38,16 +38,6 @@ export default function SightingsMap({ sightings, onAddSightingClick, onMapClick
     }
   }, []);
 
-  // Optimize: Only show sampled markers to improve performance
-  // Show max 500 markers by sampling the data
-  const displaySightings = useMemo(() => {
-    if (sightings.length <= 500) return sightings;
-    
-    // Sample every Nth sighting to get approximately 500 markers
-    const step = Math.ceil(sightings.length / 500);
-    return sightings.filter((_, index) => index % step === 0);
-  }, [sightings]);
-
   // Calculate center of all sightings (or default to US center)
   const centerLat = sightings.length > 0
     ? sightings.reduce((sum, s) => sum + s.latitude, 0) / sightings.length
@@ -70,11 +60,9 @@ export default function SightingsMap({ sightings, onAddSightingClick, onMapClick
         </div>
         <p className="text-center text-[#F8F8F8] text-sm mb-4">
           Click anywhere on the map to set the location for a new sighting
-          {displaySightings.length < sightings.length && (
-            <span className="block text-xs text-gray-400 mt-1">
-              Showing {displaySightings.length} of {sightings.length} sightings for better performance
-            </span>
-          )}
+          <span className="block text-xs text-gray-400 mt-1">
+            Showing {sightings.length} sightings from current table page
+          </span>
         </p>
         <div className="bg-gray-900 rounded-lg overflow-hidden shadow-lg">
           <MapContainer
@@ -88,7 +76,7 @@ export default function SightingsMap({ sightings, onAddSightingClick, onMapClick
               url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
             />
             <MapClickHandler onMapClick={onMapClick} />
-            {displaySightings.map((sighting) => (
+            {sightings.map((sighting) => (
               <Marker
                 key={sighting.id}
                 position={[sighting.latitude, sighting.longitude]}
