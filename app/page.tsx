@@ -1,6 +1,9 @@
 import { getAllSightings, calculateStats } from './lib/sightingsService';
 import HomePageClient from './components/HomePageClient';
 
+// Cache the page for 60 seconds to improve performance
+export const revalidate = 60;
+
 export default async function Home() {
   try {
     // Fetch sightings from Supabase
