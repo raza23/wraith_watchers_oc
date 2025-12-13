@@ -24,7 +24,7 @@ interface SightingRecord {
   notes: string;
   timeofday: string;
   apparitiontag: string;
-  imagelink?: string;
+  imagelink: string | null;
 }
 
 // Load environment variables

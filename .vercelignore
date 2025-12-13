@@ -1,0 +1,24 @@
+# Ignore parent directory files
+../package-lock.json
+../package.json
+
+# Node modules
+node_modules
+
+# Build outputs
+.next
+out
+build
+
+# Environment files (these should be set in Vercel dashboard)
+.env*.local
+
+# Test files
+test-*.js
+*.test.ts
+*.test.tsx
+
+# Scripts that aren't needed for deployment
+scripts/loadDataToSupabase.ts
+scripts/README.md
+
